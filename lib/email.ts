@@ -139,7 +139,7 @@ export async function sendLeadNotificationEmail(params: {
     matches,
   } = params;
 
-  const to = process.env.RESEND_NOTIFY_EMAIL;
+  const to = process.env.NOTIFY_EMAIL || process.env.RESEND_NOTIFY_EMAIL;
   if (!to) return;
 
   const tx = getTransporter();
@@ -248,7 +248,7 @@ export async function sendPtBriefEmail(params: {
     "ONE LDN PT Matcher",
   ]);
 
-  const ops = process.env.RESEND_NOTIFY_EMAIL;
+  const ops = process.env.NOTIFY_EMAIL || process.env.RESEND_NOTIFY_EMAIL;
   try {
     await tx.sendMail({
       from: FROM_EMAIL,

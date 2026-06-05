@@ -6,7 +6,7 @@ ONE LDN PT Matcher is a full-stack Next.js app for member-to-coach matching. It 
 - an authenticated admin triage dashboard at `/admin`
 - Supabase-backed leads, roster, and assignment storage
 
-The app preserves the prototype UI/flow and uses the same matching logic for top-3 PT recommendations.
+The app preserves the prototype UI/flow and uses the Claude API for top-3 PT recommendations, with the matching prompt and PT profiles fetched from GitHub at runtime (5-minute cache).
 
 ## Local setup
 1. Install dependencies:
@@ -15,8 +15,12 @@ The app preserves the prototype UI/flow and uses the same matching logic for top
    - `NEXT_PUBLIC_SUPABASE_URL=`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY=`
    - `SUPABASE_SERVICE_ROLE_KEY=`
-   - `RESEND_API_KEY=`
-   - `RESEND_NOTIFY_EMAIL=`
+   - `ANTHROPIC_API_KEY=`
+   - `MATCHING_PROMPT_URL=`
+   - `PT_PROFILES_URL=`
+   - `SMTP_USER=` (Google Workspace mailbox, e.g. `kim@oneldn.com`)
+   - `SMTP_PASS=` (Google Workspace app password)
+   - `NOTIFY_EMAIL=` (ops notification recipient)
    - `GOOGLE_CLIENT_ID=`
    - `GOOGLE_CLIENT_SECRET=`
    - `NEXTAUTH_SECRET=`
@@ -63,5 +67,5 @@ Update the `capacity` column in `pt_roster` directly in Supabase.
 ## Troubleshooting
 - Font not loading: ensure files are in `public/fonts/` named exactly `horizon.otf` and `horizon_outlined.otf`.
 - Leads not appearing: confirm Supabase RLS policies and environment keys are correct.
-- Email not sending: verify `RESEND_API_KEY` and `RESEND_NOTIFY_EMAIL`.
+- Email not sending: verify `SMTP_USER`, `SMTP_PASS` (Google Workspace app password) and `NOTIFY_EMAIL`.
 - Admin login failing: verify Google OAuth credentials and account email ends with `@oneldn.com`.

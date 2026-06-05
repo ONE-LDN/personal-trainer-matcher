@@ -111,6 +111,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
   const [leadsLoading,setLeadsLoading]=useState(mode==="admin");
   const [selected,setSelected]=useState(null);
   const [matchResults,setMatchResults]=useState([]);
+  const [submitting,setSubmitting]=useState(false);
   const [selectedMatchIdx,setSelectedMatchIdx]=useState(0);
   const [bookingPT,setBookingPT]=useState(null);
   const [bookingConfirmed,setBookingConfirmed]=useState(false);
@@ -161,17 +162,22 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
     else{ submitForm(answers); }
   }
   async function submitForm(data){
-    const res = await fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) return;
-    const out = await res.json();
-    const matches = out.matches ?? [];
-    setMatchResults(matches); setSelectedMatchIdx(0);
-    const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,dob:data.dob,gender:data.gender,goal:data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
-    setLeads(p=>[lead,...p]); setView("result");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) return;
+      const out = await res.json();
+      const matches = out.matches ?? [];
+      setMatchResults(matches); setSelectedMatchIdx(0);
+      const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,dob:data.dob,gender:data.gender,goal:data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
+      setLeads(p=>[lead,...p]); setView("result");
+    } finally {
+      setSubmitting(false);
+    }
   }
   async function assignPT(lid,pid){
     await fetch("/api/assign", {
@@ -289,12 +295,16 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
     .section-label { font-family:'Courier Prime',monospace; font-size:9px; font-weight:700; letter-spacing:0.24em; text-transform:uppercase; color:#555; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #111; }
     .progress { height:2px; background:#1a1a1a; }
     .progress-fill { height:100%; background:#c1ff72; transition:width 0.35s; }
+    .loading-bar { height:3px; background:#1a1a1a; overflow:hidden; position:relative; }
+    .loading-bar-fill { position:absolute; height:100%; background:#c1ff72; animation:indet 1.1s ease-in-out infinite; }
+    @keyframes indet { 0%{left:-40%;width:40%} 50%{left:30%;width:55%} 100%{left:100%;width:40%} }
     .fade-up { animation:fu 0.3s ease forwards; }
     @keyframes fu { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
     input, textarea { font-family:'Courier Prime',monospace; font-size:14px; background:#fff; border:1px solid #ccc; color:#111; padding:14px 16px; width:100%; outline:none; transition:border-color 0.15s; box-sizing:border-box; }
     input:focus, textarea:focus { border-color:#c1ff72; background:#fff; }
-    input::placeholder, textarea::placeholder { color:#999; letter-spacing:0.04em; font-size:12px; text-transform:uppercase; font-family:'Courier Prime',monospace; }
+    input::placeholder, textarea::placeholder { color:#999; letter-spacing:0.04em; text-transform:uppercase; font-family:'Courier Prime',monospace; }
+    @media (max-width: 768px) { input, textarea { font-size:16px; } textarea { resize:none; } }
     select { font-family:'Horizon',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; background:#0a0a0a; border:1px solid #222; color:#fff; padding:8px 12px; cursor:pointer; outline:none; }
     select option { background:#0a0a0a; font-family:'Courier Prime',monospace; }
 
@@ -374,8 +384,8 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     />
                     <button className="btn-red"
                       onClick={handleNext}
-                      disabled={!STEPS[step].optional && !answers[STEPS[step].field]}>
-                      {step===STEPS.length-1?"SEE MY MATCHES →":"CONTINUE →"}
+                      disabled={submitting || (!STEPS[step].optional && !answers[STEPS[step].field])}>
+                      {submitting?"MATCHING...":step===STEPS.length-1?"SEE MY MATCHES →":"CONTINUE →"}
                     </button>
                   </div>
                 ):(
@@ -393,13 +403,19 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                       ))}
                     </div>
                     <button className="btn-red" style={{marginTop:8}}
-                      disabled={!answers[STEPS[step].field]}
+                      disabled={submitting || !answers[STEPS[step].field]}
                       onClick={handleNext}>
-                      {step===STEPS.length-1?"SEE MY MATCHES →":"CONTINUE →"}
+                      {submitting?"MATCHING...":step===STEPS.length-1?"SEE MY MATCHES →":"CONTINUE →"}
                     </button>
                   </div>
                 )}
-                {step>0&&<button className="btn-outline" style={{marginTop:16,width:"auto",padding:"10px 20px"}} onClick={()=>setStep(s=>s-1)}>← BACK</button>}
+                {submitting&&(
+                  <div style={{marginTop:16}}>
+                    <div className="loading-bar"><div className="loading-bar-fill"/></div>
+                    <p className="label dim" style={{marginTop:10,fontSize:9}}>FINDING YOUR SPECIALISTS — THIS CAN TAKE A FEW SECONDS</p>
+                  </div>
+                )}
+                {step>0&&!submitting&&<button className="btn-outline" style={{marginTop:16,width:"auto",padding:"10px 20px"}} onClick={()=>setStep(s=>s-1)}>← BACK</button>}
               </div>
             )}
           </div>
@@ -429,10 +445,10 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   </div>
                   <p className="label" style={{marginBottom:8,fontSize:9,color:"#fff"}}>{pt.role}</p>
                   <p className="body dim" style={{fontSize:13}}>{pt.bestFor}</p>
-                  {pt.reasoning&&(
+                  {(pt.client_reasoning||pt.reasoning)&&(
                     <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #1a1a1a"}}>
                       <p className="label" style={{fontSize:8,color:"#c1ff72",marginBottom:4}}>WHY THIS MATCH</p>
-                      <p className="body dim" style={{fontSize:13}}>{pt.reasoning}</p>
+                      <p className="body dim" style={{fontSize:13}}>{pt.client_reasoning??pt.reasoning}</p>
                     </div>
                   )}
                   {i===selectedMatchIdx&&<button className="btn-red" style={{marginTop:18}} onClick={e=>{e.stopPropagation();setBookingPT(pt);setBookingConfirmed(false);setView("booking");}}>REQUEST INTRO SESSION →</button>}

@@ -86,6 +86,7 @@ export async function POST(request: Request) {
           ...pt,
           bestFor: pt.best_for, // normalise snake_case → camelCase for client
           reasoning: m.reasoning,
+          client_reasoning: m.client_reasoning ?? m.reasoning,
           caveat: m.caveat ?? null,
         };
       })

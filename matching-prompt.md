@@ -42,21 +42,12 @@ Clients submit a short intake questionnaire. You will receive some or all of the
 
 Return exactly 3 matches unless you determine that fewer than 3 coaches are genuinely suitable (see Fallback Rule below).
 
-For each match, use this format:
+For each match, populate two Why fields in your JSON output:
 
----
+- **`reasoning`** (for the ops team): 1–2 sentences in **third person** connecting this client's profile to the PT. Reference what the client said where possible. E.g. "This client has mentioned a shoulder injury and wants to return to compound lifting — Craig's osteopathy background makes him the strongest fit."
+- **`client_reasoning`** (shown directly to the member): 1–2 sentences in **second person**, addressing the member directly. Same substance, different voice. E.g. "You mentioned a shoulder injury and a goal of getting back to compound lifting — Craig's background as a qualified osteopath means he can work around your injury while building strength safely."
 
-**1. [PT NAME] — [Role]**
-**Why:** [1–2 sentences connecting the client's own words and needs to this PT's specific profile. Reference what the client said where possible.]
-**Caveat (if any):** [1 sentence — only include if there is a genuine condition or risk to flag. Leave blank if none.]
-
-**2. [PT NAME] — [Role]**
-**Why:** ...
-**Caveat (if any):** ...
-
-**3. [PT NAME] — [Role]**
-**Why:** ...
-**Caveat (if any):** ...
+The two fields should cover the same reasoning but one speaks about the client and one speaks to them.
 
 ---
 

@@ -15,7 +15,7 @@ export async function fetchPromptFile(url: string): Promise<string> {
   return content;
 }
 
-export type AIMatch = { pt_id: number; reasoning: string; caveat?: string | null };
+export type AIMatch = { pt_id: number; reasoning: string; client_reasoning: string; caveat?: string | null };
 export type AIMatchResponse = { matches: AIMatch[]; overall_reasoning: string };
 
 export async function runMatchingCall(params: {
@@ -38,9 +38,9 @@ export async function runMatchingCall(params: {
     JSON.stringify(params.clientResponses, null, 2),
     "",
     "Return ONLY valid JSON (no markdown fences) matching this schema:",
-    '{ "matches": [{ "pt_id": number, "reasoning": string, "caveat": string | null }, ...], "overall_reasoning": string }',
+    '{ "matches": [{ "pt_id": number, "reasoning": string, "client_reasoning": string, "caveat": string | null }, ...], "overall_reasoning": string }',
     "Include exactly 3 matches, ranked best-fit first.",
-    "caveat is optional — only include if there is a genuine fit caveat the ops team should know (e.g. specialism mismatch, capacity note). Set null otherwise.",
+    "reasoning: 1–2 sentences in third person for the ops team (e.g. 'This client mentioned...'). client_reasoning: 1–2 sentences in second person addressed directly to the member (e.g. 'You mentioned...', 'Your focus on...', 'Given your...'). caveat is optional — only include if there is a genuine fit caveat the ops team should know (e.g. specialism mismatch, capacity note). Set null otherwise.",
   ].join("\n");
 
   const message = await client.messages.create({

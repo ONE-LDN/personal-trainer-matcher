@@ -69,3 +69,4 @@ Update the `capacity` column in `pt_roster` directly in Supabase.
 - Leads not appearing: confirm Supabase RLS policies and environment keys are correct.
 - Email not sending: verify `SMTP_USER`, `SMTP_PASS` (Google Workspace app password) and `NOTIFY_EMAIL`.
 - Admin login failing: verify Google OAuth credentials and account email ends with `@oneldn.com`.
+- Admin login shows `Error 400: redirect_uri_mismatch`: the deployment's callback URL isn't whitelisted in Google Cloud Console. Add the exact URL `https://<deployment-domain>/api/auth/callback/google` to the OAuth client's **Authorized redirect URIs**, and confirm `NEXTAUTH_URL` for that deployment matches its own domain. Each Vercel project/domain needs its own entry — they are not shared.

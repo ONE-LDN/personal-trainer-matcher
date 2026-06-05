@@ -1,8 +1,35 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Email is sent through Google Workspace SMTP (a real @oneldn.com mailbox),
+// which reuses the SPF/DKIM already configured for the domain — no Resend
+// domain verification or DNS changes required.
+//
+// Required env vars:
+//   SMTP_USER  — the @oneldn.com mailbox to authenticate as (e.g. saffron@oneldn.com)
+//   SMTP_PASS  — a Google App Password for that mailbox (16 chars, 2FA required)
+// Optional:
+//   SMTP_FROM  — display From; must be SMTP_USER or a configured send-as alias.
+//                Defaults to "ONE LDN PT Matcher <SMTP_USER>".
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+const FROM_EMAIL =
+  process.env.SMTP_FROM || (SMTP_USER ? `ONE LDN PT Matcher <${SMTP_USER}>` : "");
 
-type MatchItem = { name: string; score: number };
+let transporter: nodemailer.Transporter | null = null;
+function getTransporter(): nodemailer.Transporter | null {
+  if (!SMTP_USER || !SMTP_PASS) return null;
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
+    });
+  }
+  return transporter;
+}
+
+type MatchItem = { name: string; reasoning?: string | null; caveat?: string | null };
 
 const GOAL_LABELS: Record<string, string> = {
   performance: "Performance",
@@ -115,8 +142,14 @@ export async function sendLeadNotificationEmail(params: {
   const to = process.env.RESEND_NOTIFY_EMAIL;
   if (!to) return;
 
+  const tx = getTransporter();
+  if (!tx) {
+    console.error("Email not sent — SMTP_USER/SMTP_PASS not configured.");
+    return;
+  }
+
   const goalLabel = labelOr(GOAL_LABELS, goal);
-  const { text, html } = renderBrief([
+  const lines: BriefLine[] = [
     ["Name", `${first_name} ${last_name}`.trim()],
     ["Email", email],
     ["Date of birth", formatDob(dob)],
@@ -128,19 +161,28 @@ export async function sendLeadNotificationEmail(params: {
     ["Injuries / medical", injuries || "None noted"],
     ["Anything else", anything_else || "—"],
     "",
-    "Top matches:",
-    `1. ${matches[0]?.name ?? "N/A"} — score ${matches[0]?.score ?? 0}`,
-    `2. ${matches[1]?.name ?? "N/A"} — score ${matches[1]?.score ?? 0}`,
-    `3. ${matches[2]?.name ?? "N/A"} — score ${matches[2]?.score ?? 0}`,
-  ]);
-
-  await resend.emails.send({
-    from: "ONE LDN PT Matcher <onboarding@resend.dev>",
-    to,
-    subject: `New PT Match — ${first_name} ${last_name} (${goalLabel})`,
-    text,
-    html,
+    "TOP MATCHES",
+    "───────────",
+  ];
+  matches.forEach((m, i) => {
+    lines.push(`${i + 1}. ${m?.name ?? "N/A"}`);
+    if (m?.reasoning) lines.push(["   Why", m.reasoning]);
+    if (m?.caveat) lines.push(["   ⚠ Caveat", m.caveat]);
+    lines.push("");
   });
+  const { text, html } = renderBrief(lines);
+
+  try {
+    await tx.sendMail({
+      from: FROM_EMAIL,
+      to,
+      subject: `New PT Match — ${first_name} ${last_name} (${goalLabel})`,
+      text,
+      html,
+    });
+  } catch (err) {
+    console.error("Lead-notification email failed:", err);
+  }
 }
 
 export async function sendPtBriefEmail(params: {
@@ -176,6 +218,12 @@ export async function sendPtBriefEmail(params: {
     sentBy,
   } = params;
 
+  const tx = getTransporter();
+  if (!tx) {
+    console.error("PT brief not sent — SMTP_USER/SMTP_PASS not configured.");
+    return;
+  }
+
   const memberName = `${first_name} ${last_name}`.trim();
   const goalLabel = labelOr(GOAL_LABELS, goal);
   const { text, html } = renderBrief([
@@ -201,12 +249,16 @@ export async function sendPtBriefEmail(params: {
   ]);
 
   const ops = process.env.RESEND_NOTIFY_EMAIL;
-  await resend.emails.send({
-    from: "ONE LDN PT Matcher <onboarding@resend.dev>",
-    to: ptEmail,
-    ...(ops ? { cc: [ops] } : {}),
-    subject: `New PT Lead — ${memberName} (${goalLabel})`,
-    text,
-    html,
-  });
+  try {
+    await tx.sendMail({
+      from: FROM_EMAIL,
+      to: ptEmail,
+      ...(ops ? { cc: [ops] } : {}),
+      subject: `New PT Lead — ${memberName} (${goalLabel})`,
+      text,
+      html,
+    });
+  } catch (err) {
+    console.error("PT-brief email failed:", err);
+  }
 }

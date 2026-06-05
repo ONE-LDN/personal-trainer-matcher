@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServiceClient } from "@/lib/supabase";
-import { matchPTs, type MatchLeadInput, type MatchPT } from "@/lib/matching";
-import { sendLeadNotificationEmail } from "@/lib/resend";
+import { fetchPromptFile, runMatchingCall } from "@/lib/claude";
+import { sendLeadNotificationEmail } from "@/lib/email";
 
 function splitName(fullName: string) {
   const trimmed = (fullName || "").trim();
@@ -13,69 +13,140 @@ function splitName(fullName: string) {
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
-    const leadInput: MatchLeadInput & {
+    const {
+      name,
+      email,
+      dob,
+      gender,
+      goal,
+      goal_detail,
+      freq,
+      injuries,
+      pt_gender_pref,
+      anything_else,
+    } = payload as {
       name: string;
       email: string;
       dob: string;
+      gender: string;
+      goal: string;
       goal_detail: string;
+      freq: string;
+      injuries: string;
+      pt_gender_pref: string;
       anything_else: string;
-    } = payload;
+    };
 
-    if (!leadInput.name || !leadInput.email || !leadInput.goal || !leadInput.freq) {
+    if (!name || !email || !goal || !freq) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const { first_name, last_name } = splitName(leadInput.name);
+    const { first_name, last_name } = splitName(name);
     const supabase = getSupabaseServiceClient();
 
-    const { data: rosterData, error: rosterError } = await supabase
-      .from("pt_roster")
-      .select("*")
-      .eq("active", true);
+    // Fetch active roster and prompt files in parallel
+    const [{ data: rosterData, error: rosterError }, systemPrompt, ptProfiles] =
+      await Promise.all([
+        supabase.from("pt_roster").select("*").eq("active", true),
+        fetchPromptFile(process.env.MATCHING_PROMPT_URL!),
+        fetchPromptFile(process.env.PT_PROFILES_URL!),
+      ]);
+
     if (rosterError) throw rosterError;
+    const roster = rosterData ?? [];
 
-    const roster = (rosterData ?? []) as unknown as MatchPT[];
-    const matches = matchPTs(leadInput, roster);
+    // Hard constraint: a stated trainer gender preference is non-negotiable.
+    // Remove non-matching PTs from the candidate pool entirely so the AI
+    // physically cannot recommend them (and any stray match is dropped on enrichment).
+    const genderPref =
+      pt_gender_pref && pt_gender_pref !== "no_preference" ? pt_gender_pref : null;
+    const candidates = genderPref
+      ? roster.filter((r) => r.gender === genderPref)
+      : roster;
 
-    const top = matches[0];
+    // Build an id→name reference so Claude returns real database IDs (candidate pool only)
+    const ptIdReference = candidates
+      .map((r) => `${r.id} = ${r.name}`)
+      .join("\n");
+
+    // Call Claude to match the client
+    const aiResponse = await runMatchingCall({
+      systemPrompt,
+      ptProfiles,
+      ptIdReference,
+      clientResponses: { goal, freq, injuries, gender, pt_gender_pref, goal_detail, anything_else },
+    });
+
+    // Enrich AI matches with full PT data from the candidate pool
+    const matches = aiResponse.matches
+      .map((m) => {
+        const pt = candidates.find((r) => r.id === m.pt_id);
+        if (!pt) return null;
+        return {
+          ...pt,
+          bestFor: pt.best_for, // normalise snake_case → camelCase for client
+          reasoning: m.reasoning,
+          caveat: m.caveat ?? null,
+        };
+      })
+      .filter(Boolean);
+
+    // Insert lead
     const { data: leadData, error: leadError } = await supabase
       .from("leads")
       .insert({
         first_name,
         last_name,
-        email: leadInput.email,
-        age: leadInput.dob,
-        gender: leadInput.gender,
-        goal: leadInput.goal,
-        goal_detail: leadInput.goal_detail,
-        freq: leadInput.freq,
-        injuries: leadInput.injuries,
-        pt_gender_pref: leadInput.pt_gender_pref,
-        anything_else: leadInput.anything_else,
+        email,
+        age: dob,
+        gender,
+        goal,
+        goal_detail,
+        freq,
+        injuries,
+        pt_gender_pref,
+        anything_else,
         status: "new",
-        assigned_pt_id: top?.id ?? null,
+        assigned_pt_id: matches[0]?.id ?? null,
       })
       .select("*")
       .single();
     if (leadError) throw leadError;
 
+    // Write to match_log
+    await supabase.from("match_log").insert({
+      lead_id: leadData.id,
+      client_responses: payload,
+      ai_matches: aiResponse.matches,
+      ai_reasoning: { overall: aiResponse.overall_reasoning },
+      selected_pt_id: matches[0]?.id ?? null,
+    });
+
+    // Send ops notification email
     await sendLeadNotificationEmail({
       first_name,
       last_name,
-      email: leadInput.email,
-      dob: leadInput.dob,
-      gender: leadInput.gender,
-      goal: leadInput.goal,
-      goal_detail: leadInput.goal_detail,
-      freq: leadInput.freq,
-      pt_gender_pref: leadInput.pt_gender_pref,
-      injuries: leadInput.injuries,
-      anything_else: leadInput.anything_else,
-      matches: matches.map((m) => ({ name: m.name, score: m.score ?? 0 })),
+      email,
+      dob,
+      gender,
+      goal,
+      goal_detail,
+      freq,
+      pt_gender_pref,
+      injuries,
+      anything_else,
+      matches: matches.map((m) => ({
+        name: m!.name,
+        reasoning: m!.reasoning ?? null,
+        caveat: m!.caveat ?? null,
+      })),
     });
 
     return NextResponse.json({ lead: leadData, matches });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to submit lead", detail: String(error) }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to submit lead", detail: String(error) },
+      { status: 500 }
+    );
   }
 }

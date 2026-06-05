@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getPtEmail } from "@/lib/pt-emails";
-import { sendPtBriefEmail } from "@/lib/resend";
+import { sendPtBriefEmail } from "@/lib/email";
 import { getSupabaseServiceClient } from "@/lib/supabase";
 
 export async function POST(request: Request) {

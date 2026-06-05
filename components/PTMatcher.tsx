@@ -295,6 +295,9 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
     .section-label { font-family:'Courier Prime',monospace; font-size:9px; font-weight:700; letter-spacing:0.24em; text-transform:uppercase; color:#555; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #111; }
     .progress { height:2px; background:#1a1a1a; }
     .progress-fill { height:100%; background:#c1ff72; transition:width 0.35s; }
+    .loading-bar { height:3px; background:#1a1a1a; overflow:hidden; position:relative; }
+    .loading-bar-fill { position:absolute; height:100%; background:#c1ff72; animation:indet 1.1s ease-in-out infinite; }
+    @keyframes indet { 0%{left:-40%;width:40%} 50%{left:30%;width:55%} 100%{left:100%;width:40%} }
     .fade-up { animation:fu 0.3s ease forwards; }
     @keyframes fu { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
@@ -406,7 +409,13 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     </button>
                   </div>
                 )}
-                {step>0&&<button className="btn-outline" style={{marginTop:16,width:"auto",padding:"10px 20px"}} onClick={()=>setStep(s=>s-1)}>← BACK</button>}
+                {submitting&&(
+                  <div style={{marginTop:16}}>
+                    <div className="loading-bar"><div className="loading-bar-fill"/></div>
+                    <p className="label dim" style={{marginTop:10,fontSize:9}}>FINDING YOUR SPECIALISTS — THIS CAN TAKE A FEW SECONDS</p>
+                  </div>
+                )}
+                {step>0&&!submitting&&<button className="btn-outline" style={{marginTop:16,width:"auto",padding:"10px 20px"}} onClick={()=>setStep(s=>s-1)}>← BACK</button>}
               </div>
             )}
           </div>

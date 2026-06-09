@@ -81,7 +81,7 @@ function leadHasInjury(injuries) {
 }
 
 const STEPS = [
-  {title:"WHICH OF THESE TRAINING GOALS\nBEST DESCRIBES WHAT YOU'RE LOOKING FOR?", field:"goal", type:"select", multi:true, maxSelect:3, cols:2, options:[
+  {title:"WHICH OF THESE TRAINING GOALS BEST DESCRIBES WHAT YOU'RE LOOKING FOR?", field:"goal", type:"select", multi:true, maxSelect:3, cols:2, options:[
     {value:"performance", label:"Performance – strength, speed, endurance or comp prep"},
     {value:"play",        label:"Play – social fitness, energy, connection and events"},
     {value:"consistency", label:"Consistency – building a sustainable lifestyle"},
@@ -90,21 +90,21 @@ const STEPS = [
     {value:"mindset",     label:"Mindset & Resilience – fuelling your mental health"},
     {value:"other",       label:"Other"},
   ]},
-  {title:"NOW TELL US, MORE SPECIFICALLY,\nWHAT YOU'D LIKE TO WORK ON:", field:"goal_detail", type:"text", placeholder:"Share as much or as little as you like..."},
-  {title:"HOW OFTEN DO YOU\nCURRENTLY TRAIN?", field:"freq", type:"select", cols:1, options:[
+  {title:"NOW TELL US, MORE SPECIFICALLY, WHAT YOU'D LIKE TO WORK ON:", field:"goal_detail", type:"text", placeholder:"Share as much or as little as you like..."},
+  {title:"HOW OFTEN DO YOU CURRENTLY TRAIN?", field:"freq", type:"select", cols:1, options:[
     {value:"never",  label:"Never"},
     {value:"1_2",    label:"1–2 times / week"},
     {value:"3_4",    label:"3–4 times / week"},
     {value:"5_6",    label:"5–6 times / week"},
     {value:"7plus",  label:"7+ times / week"},
   ]},
-  {title:"DO YOU HAVE ANY PREVIOUS INJURIES\nOR MEDICAL CONDITIONS WE SHOULD KNOW ABOUT?", field:"injuries", type:"text", placeholder:"Leave blank if none", optional:true},
-  {title:"DO YOU HAVE A PREFERENCE FOR\nYOUR TRAINER'S GENDER?", field:"pt_gender_pref", type:"select", cols:1, options:[
+  {title:"DO YOU HAVE ANY PREVIOUS INJURIES OR MEDICAL CONDITIONS WE SHOULD KNOW ABOUT?", field:"injuries", type:"text", placeholder:"Leave blank if none", optional:true},
+  {title:"DO YOU HAVE A PREFERENCE FOR YOUR TRAINER'S GENDER?", field:"pt_gender_pref", type:"select", cols:1, options:[
     {value:"no_preference", label:"No preference"},
     {value:"male",          label:"Male"},
     {value:"female",        label:"Female"},
   ]},
-  {title:"BEFORE WE MATCH YOU, IS THERE\nANYTHING ELSE WE SHOULD KNOW?", field:"anything_else", type:"text", placeholder:"Fitness experience, goals, preferences...", optional:true},
+  {title:"BEFORE WE MATCH YOU, IS THERE ANYTHING ELSE WE SHOULD KNOW?", field:"anything_else", type:"text", placeholder:"Fitness experience, goals, preferences...", optional:true},
 ];
 
 export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
@@ -389,7 +389,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
               <div className="fade-up">
                 <div className="progress" style={{marginBottom:28}}><div className="progress-fill" style={{width:`${((step+1)/STEPS.length)*100}%`}}/></div>
                 <p className="label dim" style={{marginBottom:14}}>STEP {step+1} OF {STEPS.length}</p>
-                <h2 className="step-heading" style={{marginBottom:28,whiteSpace:"pre-line"}}>{STEPS[step].title}</h2>
+                <h2 className="step-heading" style={{marginBottom:28}}>{STEPS[step].title}</h2>
                 {STEPS[step].type==="text" ? (
                   <div style={{display:"flex",flexDirection:"column",gap:12}}>
                     <textarea

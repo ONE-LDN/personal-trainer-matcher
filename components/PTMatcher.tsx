@@ -261,7 +261,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
     * { box-sizing:border-box; margin:0; padding:0; }
     ::-webkit-scrollbar{width:3px} ::-webkit-scrollbar-thumb{background:#333}
 
-    .h1  { font-family:'Horizon','Courier Prime',monospace; font-weight:400; font-size:clamp(38px,9vw,80px); line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; }
+    .h1  { font-family:'Horizon','Courier Prime',monospace; font-weight:400; font-size:30px; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; }
     .h2  { font-family:'Horizon','Courier Prime',monospace; font-weight:400; font-size:clamp(24px,5vw,44px); line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; }
     .step-heading { font-family:'Horizon','Courier Prime',monospace; font-weight:400; font-size:20px; line-height:1.15; letter-spacing:0.02em; text-transform:uppercase; text-align:left; display:inline-block; max-width:100%; }
     .h3  { font-family:'Horizon','Courier Prime',monospace; font-weight:400; font-size:20px; letter-spacing:0.03em; text-transform:uppercase; }

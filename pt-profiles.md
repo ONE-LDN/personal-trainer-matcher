@@ -35,7 +35,7 @@ Helping clients return to sport, break through perceived limits, and level up th
 
 **Top specialisms:**
 - Strength training
-- Fat loss and body composition
+- Body composition
 - Pre- and postnatal coaching
 
 **Who Jess works best with:**
@@ -47,7 +47,7 @@ No exclusions. Jess works with a wide range of clients.
 **Best result Jess delivers:**
 Helping clients achieve a leaner, more toned and stronger physique while building the confidence to train independently. Clients stop second-guessing what to do, develop a clear routine they can stick to, and maintain their results long-term without relying on extreme approaches.
 
-**One-liner:** Structured strength training for fat loss and lean muscle growth. Specialist in women's health, pre/postnatal and long-term body confidence.
+**One-liner:** Structured strength training for body composition and lean muscle growth. Specialist in women's health, pre/postnatal and long-term body confidence.
 
 ---
 
@@ -166,7 +166,7 @@ Helping clients build strength and improve body composition in a way that actual
 **Tier:** Associate
 
 **Top specialisms:**
-- Strength and fat loss
+- Strength and body composition
 - Running and endurance events
 - HYROX
 
@@ -189,7 +189,7 @@ Clients consistently fall in love with training — not just hitting a goal but 
 
 **Top specialisms:**
 - Strength and Olympic weightlifting
-- Fat loss and body transformation
+- Body composition and body transformation
 - CrossFit and technical lifting
 
 **Who Adrian works best with:**

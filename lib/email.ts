@@ -82,6 +82,16 @@ function labelOr(map: Record<string, string>, value: string, fallback = "—"): 
   return map[value] ?? value;
 }
 
+// Map a comma-joined list of values (e.g. multi-select goals) to their labels.
+function labelList(map: Record<string, string>, value: string, fallback = "—"): string {
+  const parts = String(value || "")
+    .split(",")
+    .map((v) => v.trim())
+    .filter(Boolean);
+  if (!parts.length) return fallback;
+  return parts.map((v) => map[v] ?? v).join(" · ");
+}
+
 function escHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -148,7 +158,7 @@ export async function sendLeadNotificationEmail(params: {
     return;
   }
 
-  const goalLabel = labelOr(GOAL_LABELS, goal);
+  const goalLabel = labelList(GOAL_LABELS, goal);
   const lines: BriefLine[] = [
     ["Name", `${first_name} ${last_name}`.trim()],
     ["Email", email],
@@ -225,7 +235,7 @@ export async function sendPtBriefEmail(params: {
   }
 
   const memberName = `${first_name} ${last_name}`.trim();
-  const goalLabel = labelOr(GOAL_LABELS, goal);
+  const goalLabel = labelList(GOAL_LABELS, goal);
   const { text, html } = renderBrief([
     `Hi ${ptName},`,
     "",

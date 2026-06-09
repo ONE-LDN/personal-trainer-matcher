@@ -14,7 +14,7 @@ The PT profiles document (`pt-profiles.md`) contains the full profile for every 
 
 Clients submit a short intake questionnaire. You will receive some or all of the following:
 
-- **Goal category** (structured selection) — treat as supporting context, not the primary signal
+- **Goal category** (structured selection) — may be one or up to three categories (provided as a list); treat them together as supporting context, not the primary signal
 - **What they'd like to work on** (free text) — this is the primary matching signal; read it carefully
 - **Training frequency** (structured selection) — supporting context
 - **Injuries or medical conditions** (free text or stated) — important flag; match to PTs with relevant rehab or injury-prevention expertise where present

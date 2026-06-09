@@ -4,15 +4,15 @@ import { useCallback, useEffect, useState } from "react";
 
 const PT_ROSTER = [
   { id:1,  name:"CRAIG",  role:"Osteopath & S&C Coach",             specialisms:["rehab","injury","longevity","health_mgmt","advanced"],                              populations:["advanced","rehab","intermediate","older_adults","corporate"],                        bestFor:"Return to sport, break through perceived limits and perform without fear of injury. Clinical diagnosis meets progressive strength training.",                                            gender:"male",   tier:"SENIOR",     capacity:3,  rate:125, initials:"CR", active:true,  availability:{1:[{s:"07:00",e:"14:00"}],3:[{s:"07:00",e:"14:00"}],5:[{s:"07:00",e:"14:00"}],6:[{s:"08:00",e:"12:00"}]} },
-  { id:2,  name:"JESS",   role:"Strength Coach & Women's Health PT", specialisms:["strength","fat_loss","pre_postnatal","womens_health","recomposition"],              populations:["womens_health","beginners","intermediate","corporate"],                              bestFor:"Structured strength training for fat loss and lean muscle growth. Specialist in women's health, pre/postnatal and long-term body confidence.",                                          gender:"female", tier:"SPECIALIST", capacity:5,  rate:80,  initials:"JE", active:true,  availability:{0:[{s:"08:00",e:"18:00"}],1:[{s:"07:30",e:"20:00"}],2:[{s:"06:30",e:"20:00"}],3:[{s:"07:30",e:"20:00"}],4:[{s:"06:30",e:"20:00"}],5:[{s:"07:30",e:"20:00"}],6:[{s:"11:00",e:"18:00"}]} },
+  { id:2,  name:"JESS",   role:"Strength Coach & Women's Health PT", specialisms:["strength","body_composition","pre_postnatal","womens_health","recomposition"],              populations:["womens_health","beginners","intermediate","corporate"],                              bestFor:"Structured strength training for body composition and lean muscle growth. Specialist in women's health, pre/postnatal and long-term body confidence.",                                          gender:"female", tier:"SPECIALIST", capacity:5,  rate:80,  initials:"JE", active:true,  availability:{0:[{s:"08:00",e:"18:00"}],1:[{s:"07:30",e:"20:00"}],2:[{s:"06:30",e:"20:00"}],3:[{s:"07:30",e:"20:00"}],4:[{s:"06:30",e:"20:00"}],5:[{s:"07:30",e:"20:00"}],6:[{s:"11:00",e:"18:00"}]} },
   { id:3,  name:"MAX",    role:"Martial Arts Instructor & PT",       specialisms:["boxing","martial_arts","mobility","strength","conditioning"],                       populations:["beginners","older_adults","teens","corporate","rehab"],                              bestFor:"Boxing, Muay Thai, Kickboxing and mobility coaching. Combat skills meet structured strength programming for all levels.",                                                              gender:"male",   tier:"SPECIALIST", capacity:4,  rate:110, initials:"MX", active:true,  availability:{1:[{s:"08:00",e:"20:00"}],2:[{s:"08:00",e:"20:00"}],3:[{s:"08:00",e:"20:00"}],4:[{s:"08:00",e:"20:00"}],5:[{s:"08:00",e:"20:00"}],6:[{s:"08:00",e:"14:00"}]} },
   { id:4,  name:"MARA",   role:"Personal Trainer",                   specialisms:["running","hyrox","injury_prevention","functional","conditioning"],                  populations:["runners","hyrox","intermediate","beginners","older_adults","corporate","rehab"],    bestFor:"Running performance, HYROX prep and injury-resilient training. Functional strength with longevity always considered.",                                                                gender:"female", tier:"SPECIALIST", capacity:6,  rate:90,  initials:"MA", active:true,  availability:{1:[{s:"06:00",e:"19:00"}],2:[{s:"06:00",e:"19:00"}],3:[{s:"06:00",e:"19:00"}],4:[{s:"06:00",e:"19:00"}],5:[{s:"06:00",e:"19:00"}]} },
   { id:7,  name:"ALICE",  role:"Coach & Personal Trainer",           specialisms:["womens_health","strength","hypertrophy","pre_postnatal","recomposition","rehab"],   populations:["womens_health","beginners","intermediate","older_adults","corporate","rehab"],      bestFor:"Biomechanics and hypertrophy for women. Builds strength and lasting body confidence through technically precise, progressive programming.",                                             gender:"female", tier:"ASSOCIATE",  capacity:5,  rate:105, initials:"AL", active:true,  availability:{1:[{s:"10:30",e:"11:30"},{s:"14:00",e:"16:00"}],3:[{s:"10:30",e:"11:30"},{s:"12:00",e:"20:00"}],4:[{s:"07:00",e:"11:00"},{s:"16:00",e:"19:00"}],6:[{s:"13:00",e:"20:00"}]} },
   { id:9,  name:"SAM",    role:"Performance Coach",                  specialisms:["sport_specific","rehab","power","speed","athletic_performance"],                    populations:["advanced","rehab","sport_specific"],                                                 bestFor:"Athletic performance and injury rehab for serious athletes. Premier League background in power, speed and sports-specific S&C.",                                                       gender:"male",   tier:"SENIOR",     capacity:8,  rate:150, initials:"SA", active:true,  availability:{1:[{s:"08:00",e:"10:00"}],2:[{s:"08:00",e:"10:00"}],3:[{s:"08:00",e:"10:00"}],4:[{s:"08:00",e:"10:00"}],5:[{s:"08:00",e:"10:00"}]} },
-  { id:10, name:"AIMEE",  role:"Personal Trainer",                   specialisms:["strength","recomposition","womens_health","nutrition","fat_loss"],                  populations:["womens_health","beginners","intermediate","older_adults","corporate"],             bestFor:"Strength and body composition coaching for women, with specialist support for midlife and hormonal health.",                                                                           gender:"female", tier:"SPECIALIST", capacity:5,  rate:95,  initials:"AI", active:true,  availability:{1:[{s:"11:00",e:"15:00"}],3:[{s:"09:30",e:"12:30"},{s:"13:45",e:"15:00"}],4:[{s:"11:00",e:"13:00"},{s:"14:00",e:"15:00"}],5:[{s:"12:00",e:"16:00"}]} },
-  { id:11, name:"LUCAS",  role:"Performance Coach & PT",             specialisms:["strength","hyrox","running","endurance","fat_loss","conditioning"],                 populations:["hyrox","runners","beginners","intermediate","advanced","corporate"],               bestFor:"Strength, HYROX and endurance coaching. Structured training for performance goals — getting faster, stronger and leaner with a multi-discipline approach.",                             gender:"male",   tier:"ASSOCIATE",  capacity:6,  rate:100, initials:"LU", active:true,  availability:{1:[{s:"07:00",e:"20:00"}],2:[{s:"07:00",e:"20:00"}],3:[{s:"07:00",e:"20:00"}],4:[{s:"07:00",e:"20:00"}],5:[{s:"07:00",e:"20:00"}]} },
-  { id:12, name:"GRACE",  role:"Personal Trainer",                   specialisms:["fat_loss","recomposition","hypertrophy","strength","beginners"],                    populations:["beginners","intermediate","womens_health","corporate"],                              bestFor:"Structured physique transformations — fat loss, muscle building and body recomposition with realistic, lasting results.",                                                               gender:"female", tier:"ASSOCIATE",  capacity:7,  rate:100, initials:"GR", active:false, availability:{1:[{s:"08:00",e:"20:00"}],2:[{s:"08:00",e:"20:00"}],3:[{s:"08:00",e:"20:00"}],4:[{s:"08:00",e:"20:00"}],5:[{s:"08:00",e:"20:00"}],6:[{s:"08:00",e:"14:00"}]} },
-  { id:13, name:"ADRIAN", role:"Coach & Personal Trainer",           specialisms:["weightlifting","strength","fat_loss","conditioning","hyrox","crossfit","recomposition"], populations:["beginners","intermediate","advanced","hyrox","older_adults","corporate","teens"], bestFor:"Olympic weightlifting, body transformations and strength coaching. Technical lifting and high-output conditioning with 10 years of coaching experience.",                                gender:"male",   tier:"ASSOCIATE",  capacity:7,  rate:88,  initials:"AC", active:true,  availability:{1:[{s:"07:00",e:"09:00"},{s:"13:30",e:"20:00"}],2:[{s:"08:00",e:"15:00"}],3:[{s:"07:00",e:"09:00"},{s:"13:30",e:"20:00"}],4:[{s:"08:00",e:"15:00"}]} },
+  { id:10, name:"AIMEE",  role:"Personal Trainer",                   specialisms:["strength","recomposition","womens_health","nutrition","body_composition"],                  populations:["womens_health","beginners","intermediate","older_adults","corporate"],             bestFor:"Strength and body composition coaching for women, with specialist support for midlife and hormonal health.",                                                                           gender:"female", tier:"SPECIALIST", capacity:5,  rate:95,  initials:"AI", active:true,  availability:{1:[{s:"11:00",e:"15:00"}],3:[{s:"09:30",e:"12:30"},{s:"13:45",e:"15:00"}],4:[{s:"11:00",e:"13:00"},{s:"14:00",e:"15:00"}],5:[{s:"12:00",e:"16:00"}]} },
+  { id:11, name:"LUCAS",  role:"Performance Coach & PT",             specialisms:["strength","hyrox","running","endurance","body_composition","conditioning"],                 populations:["hyrox","runners","beginners","intermediate","advanced","corporate"],               bestFor:"Strength, HYROX and endurance coaching. Structured training for performance goals — getting faster, stronger and leaner with a multi-discipline approach.",                             gender:"male",   tier:"ASSOCIATE",  capacity:6,  rate:100, initials:"LU", active:true,  availability:{1:[{s:"07:00",e:"20:00"}],2:[{s:"07:00",e:"20:00"}],3:[{s:"07:00",e:"20:00"}],4:[{s:"07:00",e:"20:00"}],5:[{s:"07:00",e:"20:00"}]} },
+  { id:12, name:"GRACE",  role:"Personal Trainer",                   specialisms:["body_composition","recomposition","hypertrophy","strength","beginners"],                    populations:["beginners","intermediate","womens_health","corporate"],                              bestFor:"Structured physique transformations — body composition, muscle building and recomposition with realistic, lasting results.",                                                               gender:"female", tier:"ASSOCIATE",  capacity:7,  rate:100, initials:"GR", active:false, availability:{1:[{s:"08:00",e:"20:00"}],2:[{s:"08:00",e:"20:00"}],3:[{s:"08:00",e:"20:00"}],4:[{s:"08:00",e:"20:00"}],5:[{s:"08:00",e:"20:00"}],6:[{s:"08:00",e:"14:00"}]} },
+  { id:13, name:"ADRIAN", role:"Coach & Personal Trainer",           specialisms:["weightlifting","strength","body_composition","conditioning","hyrox","crossfit","recomposition"], populations:["beginners","intermediate","advanced","hyrox","older_adults","corporate","teens"], bestFor:"Olympic weightlifting, body transformations and strength coaching. Technical lifting and high-output conditioning with 10 years of coaching experience.",                                gender:"male",   tier:"ASSOCIATE",  capacity:7,  rate:88,  initials:"AC", active:true,  availability:{1:[{s:"07:00",e:"09:00"},{s:"13:30",e:"20:00"}],2:[{s:"08:00",e:"15:00"}],3:[{s:"07:00",e:"09:00"},{s:"13:30",e:"20:00"}],4:[{s:"08:00",e:"15:00"}]} },
   { id:14, name:"ANNIE",  role:"Coach & Personal Trainer",           specialisms:["hyrox","conditioning","strength","functional","endurance"],                         populations:["hyrox","beginners","intermediate","advanced","runners","older_adults","corporate"], bestFor:"HYROX, Turf Games and hybrid training. Breaks training plateaus and builds real fitness and strength — structured programming that makes you feel both fit and strong.",                 gender:"female", tier:"ASSOCIATE",  capacity:6,  rate:100, initials:"AH", active:true,  availability:{1:[{s:"07:00",e:"10:00"}],2:[{s:"07:00",e:"10:00"}],3:[{s:"07:00",e:"10:00"}],4:[{s:"07:00",e:"10:00"}],5:[{s:"07:00",e:"10:00"}]} },
 ];
 
@@ -70,6 +70,8 @@ const STATUS = {
 };
 
 const GOAL_LABELS = {performance:"PERFORMANCE",play:"PLAY & SOCIAL FITNESS",consistency:"CONSISTENCY",longevity:"LONGEVITY & HEALTH",aesthetics:"AESTHETICS",mindset:"MINDSET & RESILIENCE",other:"OTHER"};
+// goal may be a single value, an array, or a comma-joined string of values
+function goalLabel(v){return (Array.isArray(v)?v:String(v||"").split(",")).filter(Boolean).map(g=>GOAL_LABELS[g]||g).join(" · ");}
 const FREQ_LABELS = {never:"NEW TO TRAINING","1_2":"1–2X / WEEK","3_4":"3–4X / WEEK","5_6":"5–6X / WEEK","7plus":"7+ / WEEK"};
 
 function leadHasInjury(injuries) {
@@ -79,7 +81,7 @@ function leadHasInjury(injuries) {
 }
 
 const STEPS = [
-  {title:"WHICH OF THESE TRAINING GOALS\nBEST DESCRIBES WHAT YOU'RE LOOKING FOR?", field:"goal", type:"select", cols:2, options:[
+  {title:"WHICH OF THESE TRAINING GOALS\nBEST DESCRIBES WHAT YOU'RE LOOKING FOR?", field:"goal", type:"select", multi:true, maxSelect:3, cols:2, options:[
     {value:"performance", label:"Performance – strength, speed, endurance or comp prep"},
     {value:"play",        label:"Play – social fitness, energy, connection and events"},
     {value:"consistency", label:"Consistency – building a sustainable lifestyle"},
@@ -117,7 +119,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
   const [bookingConfirmed,setBookingConfirmed]=useState(false);
   const [bookingRequests,setBookingRequests]=useState([]);
   const [step,setStep]=useState(0);
-  const [answers,setAnswers]=useState({name:"",email:"",dob:"",gender:"",goal:"",goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});
+  const [answers,setAnswers]=useState({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});
   const [nameStep,setNameStep]=useState(false);
   const [briefState,setBriefState]=useState({ sending: false, message: "" });
   const [leadsError,setLeadsError]=useState("");
@@ -156,7 +158,17 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
     setBriefState({ sending: false, message: "" });
   }, [selected?.id]);
 
-  function handleSelect(field,value){ setAnswers(p=>({...p,[field]:value})); }
+  function handleSelect(field,value){
+    setAnswers(p=>{
+      const cur=p[field];
+      if(Array.isArray(cur)){
+        if(cur.includes(value)) return {...p,[field]:cur.filter(v=>v!==value)};
+        if(cur.length>=3) return p; // cap multi-select at 3
+        return {...p,[field]:[...cur,value]};
+      }
+      return {...p,[field]:value};
+    });
+  }
   function handleNext(){
     if(step<STEPS.length-1){ setStep(s=>s+1); }
     else{ submitForm(answers); }
@@ -173,8 +185,9 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       const out = await res.json();
       const matches = out.matches ?? [];
       setMatchResults(matches); setSelectedMatchIdx(0);
-      const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,dob:data.dob,gender:data.gender,goal:data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
+      const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,dob:data.dob,gender:data.gender,goal:Array.isArray(data.goal)?data.goal.join(","):data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
       setLeads(p=>[lead,...p]); setView("result");
+      if(typeof window!=="undefined") window.scrollTo({top:0});
     } finally {
       setSubmitting(false);
     }
@@ -323,7 +336,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
         {mode==="admin"&&(
           <div className="nav-tabs">
             <button className={`nav-tab ${view==="member"||view==="result"?"active":""}`}
-              onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:"",goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>
+              onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>
               FIND MY PT
             </button>
             <button className={`nav-tab ${view==="admin"?"active":""}`} onClick={()=>setView("admin")}>ADMIN</button>
@@ -341,11 +354,15 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       {/* ═══ MEMBER FORM ═══ */}
       {view==="member" && (
         <div className="fade-up">
-          <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}><div style={{maxWidth:680,margin:"0 auto"}}>
-            <p className="label" style={{marginBottom:14,color:"#fff"}}>Personal Training</p>
-            <h1 className="h1">FIND YOUR<br/><span className="lime">SPECIALIST.</span></h1>
-            <p className="body dim" style={{marginTop:18,maxWidth:460}}>Tell us a bit about yourself and get matched with the right coach for your experience, training style and goals.</p>
-          </div></div>
+          <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
+            <div style={{maxWidth:680,margin:"0 auto"}}>
+              <p className="label" style={{marginBottom:14,color:"#fff"}}>Personal Training</p>
+              <h1 className="h1">FIND YOUR<br/><span className="lime">SPECIALIST.</span></h1>
+            </div>
+            <div style={{maxWidth:560,margin:"0 auto"}}>
+              <p className="body dim" style={{marginTop:18}}>Tell us a bit about yourself and get matched with the right coach for your experience, training style and goals.</p>
+            </div>
+          </div>
           <div style={{maxWidth:560,margin:"0 auto",padding:"44px 24px"}}>
             {!nameStep ? (
               <div className="fade-up">
@@ -363,7 +380,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     <option value="female">Female</option>
                     <option value="prefer_not">Prefer not to say</option>
                   </select>
-                  <button className="btn-red" onClick={()=>{if(answers.name&&answers.email)setNameStep(true);}} disabled={!answers.name||!answers.email}>
+                  <button className="btn-red" onClick={()=>{if(answers.name&&answers.email&&answers.gender)setNameStep(true);}} disabled={!answers.name||!answers.email||!answers.gender}>
                     START MATCHING →
                   </button>
                 </div>
@@ -390,20 +407,24 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   </div>
                 ):(
                   <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                    {STEPS[step].multi&&<p className="label dim" style={{marginBottom:8,fontSize:9}}>SELECT UP TO {STEPS[step].maxSelect}</p>}
                     <div style={{display:"grid",gridTemplateColumns:`repeat(${STEPS[step].cols},1fr)`,gap:6}}>
-                      {STEPS[step].options.map(opt=>(
-                        <button key={opt.value} className={`opt ${answers[STEPS[step].field]===opt.value?"sel":""}`}
+                      {STEPS[step].options.map(opt=>{
+                        const sel=STEPS[step].multi?answers[STEPS[step].field].includes(opt.value):answers[STEPS[step].field]===opt.value;
+                        return(
+                        <button key={opt.value} className={`opt ${sel?"sel":""}`}
                           onClick={()=>handleSelect(STEPS[step].field,opt.value)}>
                           <div style={{flex:1}}>
-                            <div className="opt-label" style={{color:answers[STEPS[step].field]===opt.value?"#c1ff72":"#fff"}}>{opt.label}</div>
+                            <div className="opt-label" style={{color:sel?"#c1ff72":"#fff"}}>{opt.label}</div>
                             {opt.sub&&<div className="body dim" style={{fontSize:12,marginTop:4}}>{opt.sub}</div>}
                           </div>
-                          {answers[STEPS[step].field]===opt.value&&<span className="lime">✓</span>}
+                          {sel&&<span className="lime">✓</span>}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                     <button className="btn-red" style={{marginTop:8}}
-                      disabled={submitting || !answers[STEPS[step].field]}
+                      disabled={submitting || (STEPS[step].multi?answers[STEPS[step].field].length===0:!answers[STEPS[step].field])}
                       onClick={handleNext}>
                       {submitting?"MATCHING...":step===STEPS.length-1?"SEE MY MATCHES →":"CONTINUE →"}
                     </button>
@@ -425,11 +446,15 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       {/* ═══ MATCH RESULT ═══ */}
       {view==="result"&&(
         <div className="fade-up">
-          <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}><div style={{maxWidth:680,margin:"0 auto"}}>
-            <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
-            <h1 className="h1">YOUR<br/><span className="lime">SPECIALISTS.</span></h1>
-            <p className="body dim" style={{marginTop:18,maxWidth:460}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>
-          </div></div>
+          <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
+            <div style={{maxWidth:680,margin:"0 auto"}}>
+              <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
+              <h1 className="h1">YOUR<br/><span className="lime">SPECIALISTS.</span></h1>
+            </div>
+            <div style={{maxWidth:640,margin:"0 auto"}}>
+              <p className="body dim" style={{marginTop:18}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>
+            </div>
+          </div>
           <div style={{maxWidth:640,margin:"0 auto",padding:"44px 24px"}}>
             <p className="section-label">Recommended coaches</p>
             {matchResults.map((pt,i)=>(
@@ -482,7 +507,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   BOOKING REQUESTS <span style={{background:"#c1ff72",color:"#000",padding:"2px 6px",marginLeft:6,fontFamily:"'Horizon',monospace",fontSize:9}}>{bookingRequests.filter(r=>r.status==="pending").length}</span>
                 </button>
               )}
-              <button className="btn-red" style={{width:"auto",padding:"12px 24px",fontSize:10}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:"",goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>+ NEW LEAD</button>
+              <button className="btn-red" style={{width:"auto",padding:"12px 24px",fontSize:10}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>+ NEW LEAD</button>
             </div>
           </div>
 
@@ -521,7 +546,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                           <span className="lead-name">{lead.name}</span>
                           {lead.status==="new"&&<div style={{width:5,height:5,background:"#c1ff72",borderRadius:"50%"}}/>}
                         </div>
-                        <div className="label" style={{fontSize:9,color:"#444",marginTop:2}}>{GOAL_LABELS[lead.goal]}{pt?` · ${pt.name}`:""}</div>
+                        <div className="label" style={{fontSize:9,color:"#444",marginTop:2}}>{goalLabel(lead.goal)}{pt?` · ${pt.name}`:""}</div>
                       </div>
                       <span className="label" style={{fontSize:8,color:cfg.color}}>{cfg.label}</span>
                     </div>
@@ -550,7 +575,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   </div>
 
                   <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:20}}>
-                    {[GOAL_LABELS[lead.goal],FREQ_LABELS[lead.freq],leadHasInjury(lead.injuries)?"⚠ INJURY/REHAB":null].filter(Boolean).map(t=>(
+                    {[goalLabel(lead.goal),FREQ_LABELS[lead.freq],leadHasInjury(lead.injuries)?"⚠ INJURY/REHAB":null].filter(Boolean).map(t=>(
                       <span key={t} className="pill" style={{color:t.includes("⚠")?"#d6242d":"#444",borderColor:t.includes("⚠")?"#d6242d":"#222",fontSize:8}}>{t}</span>
                     ))}
                   </div>
@@ -729,7 +754,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   Your request is pending confirmation. We&apos;ll be in touch within 24–48 hours to arrange a time for your intro session.
                 </p>
               </div>
-              <button className="btn-outline" style={{width:"auto",padding:"10px 20px"}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:"",goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>START AGAIN</button>
+              <button className="btn-outline" style={{width:"auto",padding:"10px 20px"}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>START AGAIN</button>
             </div>
           )}
         </div>

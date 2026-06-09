@@ -39,7 +39,7 @@ create table if not exists leads (
   age           text,
   gender        text check (gender in ('male','female','prefer_not',null)),
   pt_gender_pref text check (pt_gender_pref in ('male','female','no_preference',null)),  -- explicit PT gender preference
-  goal          text,        -- performance | play | consistency | longevity | aesthetics | mindset | other
+  goal          text,        -- comma-separated, 1–3 of: performance | play | consistency | longevity | aesthetics | mindset | other
   goal_detail   text,        -- open-ended follow-up
   freq          text,        -- never | 1_2 | 3_4 | 5_6 | 7plus
   injuries      text,        -- open-ended injury/medical notes (blank = none)

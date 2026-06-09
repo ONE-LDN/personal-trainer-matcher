@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       email: string;
       dob: string;
       gender: string;
-      goal: string;
+      goal: string | string[];
       goal_detail: string;
       freq: string;
       injuries: string;
@@ -37,7 +37,13 @@ export async function POST(request: Request) {
       anything_else: string;
     };
 
-    if (!name || !email || !goal || !freq) {
+    // Goal is now multi-select (up to 3). Accept either an array or a
+    // comma-joined string, and normalise to an array for matching.
+    const goals = (Array.isArray(goal) ? goal : String(goal || "").split(","))
+      .map((g) => g.trim())
+      .filter(Boolean);
+
+    if (!name || !email || !goals.length || !freq || !gender) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -74,7 +80,7 @@ export async function POST(request: Request) {
       systemPrompt,
       ptProfiles,
       ptIdReference,
-      clientResponses: { goal, freq, injuries, gender, pt_gender_pref, goal_detail, anything_else },
+      clientResponses: { goal: goals, freq, injuries, gender, pt_gender_pref, goal_detail, anything_else },
     });
 
     // Enrich AI matches with full PT data from the candidate pool
@@ -101,7 +107,7 @@ export async function POST(request: Request) {
         email,
         age: dob,
         gender,
-        goal,
+        goal: goals.join(","),
         goal_detail,
         freq,
         injuries,
@@ -130,7 +136,7 @@ export async function POST(request: Request) {
       email,
       dob,
       gender,
-      goal,
+      goal: goals.join(","),
       goal_detail,
       freq,
       pt_gender_pref,

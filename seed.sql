@@ -18,9 +18,9 @@ values
   'male', 'SENIOR', 3, 0, 125, 'CR', true),
 
 (2,  'JESS',   'Strength Coach & Women''s Health PT',
-  '["strength","fat_loss","pre_postnatal","womens_health","recomposition"]',
+  '["strength","body_composition","pre_postnatal","womens_health","recomposition"]',
   '["womens_health","beginners","intermediate","corporate"]',
-  'Structured strength training for fat loss and lean muscle growth. Specialist in women''s health, pre/postnatal and long-term body confidence.',
+  'Structured strength training for body composition and lean muscle growth. Specialist in women''s health, pre/postnatal and long-term body confidence.',
   'female', 'SPECIALIST', 5, 0, 80, 'JE', true),
 
 (3,  'MAX',    'Martial Arts Instructor & PT',
@@ -48,25 +48,25 @@ values
   'male', 'SENIOR', 8, 0, 150, 'SA', true),
 
 (10, 'AIMEE',  'Personal Trainer',
-  '["strength","recomposition","womens_health","nutrition","fat_loss"]',
+  '["strength","recomposition","womens_health","nutrition","body_composition"]',
   '["womens_health","beginners","intermediate","older_adults","corporate"]',
   'Strength and body composition coaching for women, with specialist support for midlife and hormonal health.',
   'female', 'SPECIALIST', 5, 0, 95, 'AI', true),
 
 (11, 'LUCAS',  'Performance Coach & PT',
-  '["strength","hyrox","running","endurance","fat_loss","conditioning"]',
+  '["strength","hyrox","running","endurance","body_composition","conditioning"]',
   '["hyrox","runners","beginners","intermediate","advanced","corporate"]',
   'Strength, HYROX and endurance coaching. Structured training for performance goals — getting faster, stronger and leaner with a multi-discipline approach.',
   'male', 'ASSOCIATE', 6, 0, 100, 'LU', true),
 
 (12, 'GRACE',  'Personal Trainer',
-  '["fat_loss","recomposition","hypertrophy","strength","beginners"]',
+  '["body_composition","recomposition","hypertrophy","strength","beginners"]',
   '["beginners","intermediate","womens_health","corporate"]',
-  'Structured physique transformations — fat loss, muscle building and body recomposition with realistic, lasting results.',
+  'Structured physique transformations — body composition, muscle building and recomposition with realistic, lasting results.',
   'female', 'ASSOCIATE', 7, 0, 100, 'GR', false),  -- active=false: awaiting first clients, flag as pending
 
 (13, 'ADRIAN', 'Coach & Personal Trainer',
-  '["weightlifting","strength","fat_loss","conditioning","hyrox","crossfit","recomposition"]',
+  '["weightlifting","strength","body_composition","conditioning","hyrox","crossfit","recomposition"]',
   '["beginners","intermediate","advanced","hyrox","older_adults","corporate","teens"]',
   'Olympic weightlifting, body transformations and strength coaching. Technical lifting and high-output conditioning with 10 years of coaching experience.',
   'male', 'ASSOCIATE', 7, 0, 88, 'AC', true),

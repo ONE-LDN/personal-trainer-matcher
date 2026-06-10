@@ -355,7 +355,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       {view==="member" && (
         <div className="fade-up">
           <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
-            <div style={{maxWidth:680,margin:"0 auto"}}>
+            <div style={{maxWidth:680,margin:"0 auto",textAlign:"center"}}>
               <p className="label" style={{marginBottom:14,color:"#fff"}}>Personal Training</p>
               <h1 className="h1">FIND YOUR<br/><span className="lime">SPECIALIST.</span></h1>
             </div>

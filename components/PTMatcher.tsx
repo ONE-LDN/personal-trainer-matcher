@@ -235,29 +235,11 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
 
   const newCount=leads.filter(l=>l.status==="new").length;
 
+  // Font faces (@font-face) and the Courier Prime import live in app/globals.css and
+  // app/layout.tsx so they are present in the document head and discovered at first
+  // paint — keeping them here (inside this client component) delayed font discovery
+  // until after hydration, which produced a visible font swap (FOUT) while typing.
   const CSS = `
-    @font-face {
-      font-family: 'Horizon';
-      src: url('/fonts/horizon.otf') format('opentype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Horizon';
-      src: url('/fonts/horizon.otf') format('opentype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'HorizonOutlined';
-      src: url('/fonts/horizon_outlined.otf') format('opentype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
     * { box-sizing:border-box; margin:0; padding:0; }
     ::-webkit-scrollbar{width:3px} ::-webkit-scrollbar-thumb{background:#333}
 

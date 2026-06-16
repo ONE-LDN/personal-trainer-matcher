@@ -451,12 +451,10 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       {/* ═══ MATCH RESULT ═══ */}
       {view==="result"&&(
         <div className="fade-up">
-          <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
-            <div style={{maxWidth:680,margin:"0 auto"}}>
+          <div style={{padding:"52px 0 36px",borderBottom:"1px solid #1a1a1a"}}>
+            <div style={{maxWidth:640,margin:"0 auto",padding:"0 24px"}}>
               <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
-              <h1 className="h1">YOUR RECOMMENDED <span className="lime">PT<span style={{fontSize:"0.6em"}}>s</span>.</span></h1>
-            </div>
-            <div style={{maxWidth:640,margin:"0 auto"}}>
+              <h1 className="h1" style={{fontSize:"clamp(22px,6vw,32px)"}}>YOUR RECOMMENDED <span className="lime">PT<span style={{fontSize:"0.7em"}}>s</span>.</span></h1>
               <p className="body dim" style={{marginTop:18}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>
             </div>
           </div>
@@ -483,8 +481,8 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   )}
                   {priceFor(pt.id)&&(
                     <div style={{marginTop:12,display:"flex",alignItems:"baseline",gap:8}}>
-                      <span className="label" style={{fontSize:8,color:"#888"}}>SESSION RATE</span>
-                      <span className="label" style={{fontSize:8,color:"#fff"}}>{priceFor(pt.id)}</span>
+                      <span className="label" style={{fontSize:13,color:"#888"}}>SESSION RATE</span>
+                      <span className="label" style={{fontSize:13,color:"#fff"}}>{priceFor(pt.id)}</span>
                     </div>
                   )}
                   {i===selectedMatchIdx&&<button className="btn-red" style={{marginTop:18}} onClick={e=>{e.stopPropagation();setBookingPT(pt);setBookingConfirmed(false);setView("booking");}}>REQUEST INTRO SESSION →</button>}

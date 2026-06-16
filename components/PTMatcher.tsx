@@ -25,6 +25,20 @@ const PT_PRICE = {
 };
 const priceFor = (id) => PT_PRICE[id] ?? null;
 
+// Member-facing taglines shown as the subtitle on match result cards.
+const PT_TAGLINE = {
+  1:"Osteopath | Strength & Conditioning",
+  2:"Strength | Body Composition | Pre- & Post-natal",
+  3:"Martial Arts | Strength | Mindset",
+  4:"Running & Performance Coach | Physiotherapist",
+  7:"Strength | Body Composition | Lifestyle Change",
+  9:"Power & Speed | Injury Prevention & Rehabilitation",
+  10:"Women's Health | Strength | Nutrition",
+  12:"Body Composition | Strength",
+  13:"Strength | Olympic Weightlifting | CrossFit",
+};
+const taglineFor = (id) => PT_TAGLINE[id] ?? null;
+
 // Generate bookable 1-hour slots for a PT on a given date string (YYYY-MM-DD)
 // availability format: { [dayOfWeek]: [{s:"HH:MM", e:"HH:MM"}] }  0=Sun, 1=Mon...6=Sat
 function generateSlots(pt, dateStr) {
@@ -440,7 +454,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
           <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
             <div style={{maxWidth:680,margin:"0 auto"}}>
               <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
-              <h1 className="h1">YOUR<br/><span className="lime">PTS.</span></h1>
+              <h1 className="h1">YOUR RECOMMENDED <span className="lime">PT<span style={{fontSize:"0.6em"}}>s</span>.</span></h1>
             </div>
             <div style={{maxWidth:640,margin:"0 auto"}}>
               <p className="body dim" style={{marginTop:18}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>
@@ -459,7 +473,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     {i===0&&<span className="pill" style={{color:"#000",background:"#c1ff72",borderColor:"#c1ff72",fontSize:8}}>BEST MATCH</span>}
                     {i===selectedMatchIdx&&i!==0&&<span className="pill" style={{color:"#fff",borderColor:"#fff",fontSize:8}}>SELECTED</span>}
                   </div>
-                  <p className="label" style={{marginBottom:8,fontSize:9,color:"#fff"}}>{pt.role}</p>
+                  <p className="label" style={{marginBottom:8,fontSize:9,color:"#fff"}}>{taglineFor(pt.id)??pt.role}</p>
                   <p className="body dim" style={{fontSize:13}}>{pt.bestFor}</p>
                   {(pt.client_reasoning||pt.reasoning)&&(
                     <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #1a1a1a"}}>
@@ -470,7 +484,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   {priceFor(pt.id)&&(
                     <div style={{marginTop:12,display:"flex",alignItems:"baseline",gap:8}}>
                       <span className="label" style={{fontSize:8,color:"#888"}}>SESSION RATE</span>
-                      <span style={{fontFamily:"'Horizon',monospace",fontSize:14,letterSpacing:"0.04em",color:"#fff"}}>{priceFor(pt.id)}</span>
+                      <span className="label" style={{fontSize:8,color:"#fff"}}>{priceFor(pt.id)}</span>
                     </div>
                   )}
                   {i===selectedMatchIdx&&<button className="btn-red" style={{marginTop:18}} onClick={e=>{e.stopPropagation();setBookingPT(pt);setBookingConfirmed(false);setView("booking");}}>REQUEST INTRO SESSION →</button>}

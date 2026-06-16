@@ -10,7 +10,8 @@ Grace Gordon is currently inactive and should not be included in any matches.
 ## CRAIG CLOUT
 **Role:** Osteopath & Strength and Conditioning Coach  
 **Tier:** Senior  
-**Session rate:** £115–130
+**Session rate:** £115–130  
+**Tagline:** Osteopath | Strength & Conditioning
 
 **Top specialisms:**
 - Injury rehabilitation
@@ -33,7 +34,8 @@ Helping clients return to sport, break through perceived limits, and level up th
 ## JESS DONEHUE
 **Role:** Strength Coach and Women's Health PT  
 **Tier:** Specialist  
-**Session rate:** £80
+**Session rate:** £80  
+**Tagline:** Strength | Body Composition | Pre- & Post-natal
 
 **Top specialisms:**
 - Strength training
@@ -56,7 +58,8 @@ Helping clients achieve a leaner, more toned and stronger physique while buildin
 ## MAX WADE
 **Role:** Martial Arts Instructor and Personal Trainer  
 **Tier:** Specialist  
-**Session rate:** £110
+**Session rate:** £110  
+**Tagline:** Martial Arts | Strength | Mindset
 
 **Top specialisms:**
 - Martial arts (boxing, Muay Thai, kickboxing)
@@ -79,7 +82,8 @@ Body composition improvements, meaningful mobility gains, and clients learning n
 ## MARA GREENWOOD
 **Role:** Personal Trainer (completing MSc Physiotherapy, graduating September 2026)  
 **Tier:** Specialist  
-**Session rate:** £80–100
+**Session rate:** £80–100  
+**Tagline:** Running & Performance Coach | Physiotherapist
 
 **Top specialisms:**
 - Running performance
@@ -102,7 +106,8 @@ Helping clients build strength, resilience and efficient movement patterns that 
 ## ALICE FARROW
 **Role:** Coach and Personal Trainer  
 **Tier:** Associate  
-**Session rate:** £120
+**Session rate:** £120  
+**Tagline:** Strength | Body Composition | Lifestyle Change
 
 **Top specialisms:**
 - Strength training and muscle building
@@ -125,7 +130,8 @@ Real and long-term change with a no-nonsense approach. Clients fall in love with
 ## SAM PEPYS
 **Role:** Performance Coach  
 **Tier:** Senior  
-**Session rate:** £150
+**Session rate:** £150  
+**Tagline:** Power & Speed | Injury Prevention & Rehabilitation
 
 **Top specialisms:**
 - Athletic performance
@@ -148,7 +154,8 @@ Meeting a client exactly where they are and getting them from A to B — whether
 ## AIMEE JEFFS
 **Role:** Personal Trainer  
 **Tier:** Specialist  
-**Session rate:** £95
+**Session rate:** £95  
+**Tagline:** Women's Health | Strength | Nutrition
 
 **Top specialisms:**
 - Strength and body composition (building muscle, reducing body fat, maintaining results through structured training and realistic nutrition)
@@ -194,7 +201,8 @@ Clients consistently fall in love with training — not just hitting a goal but 
 ## ADRIAN CAÑAVERAL
 **Role:** Coach and Personal Trainer  
 **Tier:** Associate  
-**Session rate:** £80–95
+**Session rate:** £80–95  
+**Tagline:** Strength | Olympic Weightlifting | CrossFit
 
 **Top specialisms:**
 - Strength and Olympic weightlifting

@@ -470,7 +470,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   {priceFor(pt.id)&&(
                     <div style={{marginTop:12,display:"flex",alignItems:"baseline",gap:8}}>
                       <span className="label" style={{fontSize:8,color:"#888"}}>SESSION RATE</span>
-                      <span style={{fontFamily:"'Horizon',monospace",fontSize:14,letterSpacing:"0.04em",color:"#fff"}}>{priceFor(pt.id)}</span>
+                      <span className="label" style={{fontSize:8,color:"#fff"}}>{priceFor(pt.id)}</span>
                     </div>
                   )}
                   {i===selectedMatchIdx&&<button className="btn-red" style={{marginTop:18}} onClick={e=>{e.stopPropagation();setBookingPT(pt);setBookingConfirmed(false);setView("booking");}}>REQUEST INTRO SESSION →</button>}

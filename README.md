@@ -18,9 +18,9 @@ The app preserves the prototype UI/flow and uses the Claude API for top-3 PT rec
    - `ANTHROPIC_API_KEY=`
    - `MATCHING_PROMPT_URL=`
    - `PT_PROFILES_URL=`
-   - `SMTP_USER=` (Google Workspace mailbox, e.g. `kim@oneldn.com`)
-   - `SMTP_PASS=` (Google Workspace app password)
-   - `NOTIFY_EMAIL=` (ops notification recipient)
+   - `SMTP_USER=` (Google Workspace mailbox, e.g. `training@oneldn.com`)
+   - `SMTP_PASS=` (Google Workspace app password for the `SMTP_USER` mailbox)
+   - `NOTIFY_EMAIL=` (ops notification recipient, e.g. `training@oneldn.com`)
    - `GOOGLE_CLIENT_ID=`
    - `GOOGLE_CLIENT_SECRET=`
    - `NEXTAUTH_SECRET=`

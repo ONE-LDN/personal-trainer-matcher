@@ -25,6 +25,20 @@ const PT_PRICE = {
 };
 const priceFor = (id) => PT_PRICE[id] ?? null;
 
+// Member-facing taglines shown as the subtitle on match result cards.
+const PT_TAGLINE = {
+  1:"Osteopath | Strength & Conditioning",
+  2:"Strength | Body Composition | Pre- & Post-natal",
+  3:"Martial Arts | Strength | Mindset",
+  4:"Running & Performance Coach | Physiotherapist",
+  7:"Strength | Body Composition | Lifestyle Change",
+  9:"Power & Speed | Injury Prevention & Rehabilitation",
+  10:"Women's Health | Strength | Nutrition",
+  12:"Body Composition | Strength",
+  13:"Strength | Olympic Weightlifting | CrossFit",
+};
+const taglineFor = (id) => PT_TAGLINE[id] ?? null;
+
 // Generate bookable 1-hour slots for a PT on a given date string (YYYY-MM-DD)
 // availability format: { [dayOfWeek]: [{s:"HH:MM", e:"HH:MM"}] }  0=Sun, 1=Mon...6=Sat
 function generateSlots(pt, dateStr) {
@@ -459,7 +473,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     {i===0&&<span className="pill" style={{color:"#000",background:"#c1ff72",borderColor:"#c1ff72",fontSize:8}}>BEST MATCH</span>}
                     {i===selectedMatchIdx&&i!==0&&<span className="pill" style={{color:"#fff",borderColor:"#fff",fontSize:8}}>SELECTED</span>}
                   </div>
-                  <p className="label" style={{marginBottom:8,fontSize:9,color:"#fff"}}>{pt.role}</p>
+                  <p className="label" style={{marginBottom:8,fontSize:9,color:"#fff"}}>{taglineFor(pt.id)??pt.role}</p>
                   <p className="body dim" style={{fontSize:13}}>{pt.bestFor}</p>
                   {(pt.client_reasoning||pt.reasoning)&&(
                     <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #1a1a1a"}}>

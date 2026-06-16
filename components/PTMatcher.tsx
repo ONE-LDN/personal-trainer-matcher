@@ -454,7 +454,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
           <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
             <div style={{maxWidth:680,margin:"0 auto"}}>
               <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
-              <h1 className="h1">YOUR RECOMMENDED<br/><span className="lime">PT<span style={{fontSize:"0.6em"}}>s</span>.</span></h1>
+              <h1 className="h1">YOUR RECOMMENDED <span className="lime">PT<span style={{fontSize:"0.6em"}}>s</span>.</span></h1>
             </div>
             <div style={{maxWidth:640,margin:"0 auto"}}>
               <p className="body dim" style={{marginTop:18}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>

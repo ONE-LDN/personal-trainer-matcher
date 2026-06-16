@@ -6,5 +6,5 @@ dist
 .env.local
 .env
 *.log
-.claude/
+.claude/settings.local.json
 tsconfig.tsbuildinfo

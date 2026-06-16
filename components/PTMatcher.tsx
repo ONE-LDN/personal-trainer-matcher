@@ -16,6 +16,15 @@ const PT_ROSTER = [
   { id:14, name:"ANNIE",  role:"Coach & Personal Trainer",           specialisms:["hyrox","conditioning","strength","functional","endurance"],                         populations:["hyrox","beginners","intermediate","advanced","runners","older_adults","corporate"], bestFor:"HYROX, Turf Games and hybrid training. Breaks training plateaus and builds real fitness and strength — structured programming that makes you feel both fit and strong.",                 gender:"female", tier:"ASSOCIATE",  capacity:6,  rate:100, initials:"AH", active:true,  availability:{1:[{s:"07:00",e:"10:00"}],2:[{s:"07:00",e:"10:00"}],3:[{s:"07:00",e:"10:00"}],4:[{s:"07:00",e:"10:00"}],5:[{s:"07:00",e:"10:00"}]} },
 ];
 
+// Member-facing session prices, keyed by pt_roster.id. Some PTs price as a range,
+// which the numeric `rate` column can't represent, so display prices live here.
+// When adding a new PT, add their price here too (and to pt-profiles.md).
+const PT_PRICE = {
+  1:"£115–130", 2:"£80", 3:"£110", 4:"£80–100", 7:"£120",
+  9:"£150", 10:"£95", 11:"£100", 12:"£100", 13:"£80–95", 14:"£100",
+};
+const priceFor = (id) => PT_PRICE[id] ?? null;
+
 // Generate bookable 1-hour slots for a PT on a given date string (YYYY-MM-DD)
 // availability format: { [dayOfWeek]: [{s:"HH:MM", e:"HH:MM"}] }  0=Sun, 1=Mon...6=Sat
 function generateSlots(pt, dateStr) {
@@ -339,7 +348,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
           <div style={{padding:"52px 0 36px",borderBottom:"1px solid #1a1a1a"}}>
             <div style={{maxWidth:560,margin:"0 auto",padding:"0 24px"}}>
               <p className="label" style={{marginBottom:14,color:"#fff"}}>Personal Training</p>
-              <h1 className="h1">FIND YOUR<br/><span className="lime">SPECIALIST.</span></h1>
+              <h1 className="h1">FIND YOUR<br/><span className="lime">PT.</span></h1>
             </div>
             <div style={{maxWidth:560,margin:"0 auto",padding:"0 24px"}}>
               <p className="body dim" style={{marginTop:18}}>Tell us a bit about yourself and get matched with the right coach for your experience, training style and goals.</p>
@@ -415,7 +424,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                 {submitting&&(
                   <div style={{marginTop:16}}>
                     <div className="loading-bar"><div className="loading-bar-fill"/></div>
-                    <p className="label dim" style={{marginTop:10,fontSize:9}}>FINDING YOUR SPECIALISTS — THIS CAN TAKE A FEW SECONDS</p>
+                    <p className="label dim" style={{marginTop:10,fontSize:9}}>FINDING YOUR PTS — THIS CAN TAKE A FEW SECONDS</p>
                   </div>
                 )}
                 {step>0&&!submitting&&<button className="btn-outline" style={{marginTop:16,width:"auto",padding:"10px 20px"}} onClick={()=>setStep(s=>s-1)}>← BACK</button>}
@@ -431,7 +440,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
           <div style={{padding:"52px 24px 36px",borderBottom:"1px solid #1a1a1a"}}>
             <div style={{maxWidth:680,margin:"0 auto"}}>
               <p className="label lime" style={{marginBottom:14}}>MATCH COMPLETE</p>
-              <h1 className="h1">YOUR<br/><span className="lime">SPECIALISTS.</span></h1>
+              <h1 className="h1">YOUR<br/><span className="lime">PTS.</span></h1>
             </div>
             <div style={{maxWidth:640,margin:"0 auto"}}>
               <p className="body dim" style={{marginTop:18}}>Ranked by fit to your goal and profile. Your details have been passed to the team — you&apos;ll hear from us within 24–48 hours.</p>
@@ -456,6 +465,12 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     <div style={{marginTop:12,paddingTop:12,borderTop:"1px solid #1a1a1a"}}>
                       <p className="label" style={{fontSize:8,color:"#c1ff72",marginBottom:4}}>WHY THIS MATCH</p>
                       <p className="body dim" style={{fontSize:13}}>{pt.client_reasoning??pt.reasoning}</p>
+                    </div>
+                  )}
+                  {priceFor(pt.id)&&(
+                    <div style={{marginTop:12,display:"flex",alignItems:"baseline",gap:8}}>
+                      <span className="label" style={{fontSize:8,color:"#888"}}>SESSION RATE</span>
+                      <span style={{fontFamily:"'Horizon',monospace",fontSize:14,letterSpacing:"0.04em",color:"#fff"}}>{priceFor(pt.id)}</span>
                     </div>
                   )}
                   {i===selectedMatchIdx&&<button className="btn-red" style={{marginTop:18}} onClick={e=>{e.stopPropagation();setBookingPT(pt);setBookingConfirmed(false);setView("booking");}}>REQUEST INTRO SESSION →</button>}
@@ -603,7 +618,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                           <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
                             <span style={{fontFamily:"'Horizon',monospace",fontSize:16,letterSpacing:"0.04em",textTransform:"uppercase",color:i===0?"#c1ff72":"#fff"}}>{pt.name}</span>
                             {i===0&&<span className="pill" style={{background:"#c1ff72",color:"#000",borderColor:"#c1ff72",fontSize:7}}>BEST FIT</span>}
-                            <span className="label dim" style={{marginLeft:"auto",fontSize:8}}>{pt.capacity} SPOTS · £{pt.rate}</span>
+                            <span className="label dim" style={{marginLeft:"auto",fontSize:8}}>{pt.capacity} SPOTS · {priceFor(pt.id)??`£${pt.rate}`}</span>
                           </div>
                           <p className="label" style={{fontSize:8,color:"#d6242d",marginTop:3}}>{pt.tier} · {pt.role}</p>
                         </div>

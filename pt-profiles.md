@@ -2,7 +2,7 @@
 
 This document contains the profiles of all active personal trainers at ONE LDN. Use it to match client responses to the right coach.
 
-**Active coaches: 10**
+**Active coaches: 11**
 Grace Gordon is currently inactive and should not be included in any matches.
 
 ---
@@ -242,3 +242,27 @@ Young athletes and teenagers. Annie works better with adults.
 Helping people feel fitter, stronger and more confident than they ever have before. Building real confidence in the gym through structure, purpose and clear progress — confidence that carries over into everyday life and competitions like HYROX and Turf Games.
 
 **One-liner:** HYROX, Turf Games and hybrid training. Breaks training plateaus and builds real fitness and strength — structured programming that makes you feel both fit and strong.
+
+---
+
+## DAN ARASE
+**Role:** Coach and Personal Trainer  
+**Tier:** Associate  
+**Session rate:** £80  
+**Tagline:** Hybrid Performance | Strength & Conditioning | Bodybuilding
+
+**Top specialisms:**
+- Fitness competition preparation (HYROX, Turf Games and similar events)
+- Strength and conditioning
+- Bodybuilding and physique development
+
+**Who Dan works best with:**
+Someone who already enjoys their training and wants more out of it — to become stronger, fitter and more athletic. Motivated by performance, whether that's competing in a fitness event or proving to themselves what they're capable of. They value structured coaching, enjoy the challenge and are committed to long-term progress rather than shortcuts. Dan came into coaching through performance training and bodybuilding and now works across functional strength and conditioning, fitness event training and physique work, developing strength, muscle and endurance that shows up both in and out of the gym. He works with beginners through to advanced and competitive athletes, and is comfortable coaching teens and young athletes.
+
+**Who Dan is NOT for:**
+Clinical populations — clients managing cardiac disease or musculoskeletal rehabilitation issues. Also pre- and postnatal clients, and older adults with medical conditions. Dan has not trained in coaching these groups and would not be the right fit.
+
+**Best result Dan delivers:**
+Transforming gym-goers into hybrid athletes — building the strength, conditioning and confidence under fatigue needed to compete in fitness events.
+
+**One-liner:** Hybrid athlete development and fitness competition prep. Strength, conditioning and bodybuilding for people who want their training to perform, not just look the part.

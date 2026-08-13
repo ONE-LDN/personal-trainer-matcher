@@ -12,6 +12,7 @@ export const PT_EMAIL_BY_ID: Record<number, string> = {
   13: "adrian.maxoutday@gmail.com",
   14: "anastasiaalicept@icloud.com",
   15: "daniel.arase@hotmail.com",
+  16: "asiddle0@gmail.com",
 };
 
 export function getPtEmail(ptId: number): string | undefined {

@@ -2,7 +2,7 @@
 
 This document contains the profiles of all active personal trainers at ONE LDN. Use it to match client responses to the right coach.
 
-**Active coaches: 11**
+**Active coaches: 12**
 Grace Gordon is currently inactive and should not be included in any matches.
 
 ---
@@ -266,3 +266,27 @@ Clinical populations — clients managing cardiac disease or musculoskeletal reh
 Transforming gym-goers into hybrid athletes — building the strength, conditioning and confidence under fatigue needed to compete in fitness events.
 
 **One-liner:** Hybrid athlete development and fitness competition prep. Strength, conditioning and bodybuilding for people who want their training to perform, not just look the part.
+
+---
+
+## ADAM SIDDLE
+**Role:** Coach and Personal Trainer  
+**Tier:** Associate  
+**Session rate:** £105–115 (packages include programming)  
+**Tagline:** Strength & Conditioning | Longevity | Body Recomposition
+
+**Top specialisms:**
+- Strength and conditioning
+- Functional fitness for longevity
+- Body recomposition
+
+**Who Adam works best with:**
+Adam does not work with one specific demographic — his clients are people who want to become the best version of themselves. He coaches beginners through to advanced athletes, and is comfortable across a wide range: HYROX and endurance clients, older adults, teens, and corporate professionals managing high-stress jobs. His approach is holistic, treating training as something that should support you physically, mentally, socially and emotionally, not just aesthetically. Seven years of coaching, five of them at ONE LDN. Clients get expert coaching to become fit, strong and ready for life, alongside genuine connection — he sees the relationship as a large part of what makes the work stick.
+
+**Who Adam is NOT for:**
+Pre- and postnatal clients — he has no training in this area. Adam is also not a clinical rehabilitation option: he holds a Level 3 PT qualification and can build sensible prehab into a programme or work around a minor niggle, but clients with a diagnosed injury, a medical condition or a genuine rehab need should go to Craig or Mara.
+
+**Best result Adam delivers:**
+Longevity and lasting habit change — clients who come to treat fitness as a non-negotiable part of life rather than a phase. Alongside that, measurable strength increases and body transformations or recompositions.
+
+**One-liner:** Strength, conditioning and body recomposition built around longevity. Generalist coaching for people who want fitness to become a permanent part of life, not a short-term fix.

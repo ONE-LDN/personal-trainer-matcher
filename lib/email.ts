@@ -124,6 +124,7 @@ export async function sendLeadNotificationEmail(params: {
   first_name: string;
   last_name: string;
   email: string;
+  phone: string;
   dob: string;
   gender: string;
   goal: string;
@@ -138,6 +139,7 @@ export async function sendLeadNotificationEmail(params: {
     first_name,
     last_name,
     email,
+    phone,
     dob,
     gender,
     goal,
@@ -162,6 +164,7 @@ export async function sendLeadNotificationEmail(params: {
   const lines: BriefLine[] = [
     ["Name", `${first_name} ${last_name}`.trim()],
     ["Email", email],
+    ["Mobile", phone || "—"],
     ["Date of birth", formatDob(dob)],
     ["Gender", labelOr(GENDER_LABELS, gender)],
     ["Goal", goalLabel],
@@ -201,6 +204,7 @@ export async function sendPtBriefEmail(params: {
   first_name: string;
   last_name: string;
   email: string;
+  phone: string;
   dob: string;
   gender: string;
   goal: string;
@@ -217,6 +221,7 @@ export async function sendPtBriefEmail(params: {
     first_name,
     last_name,
     email,
+    phone,
     dob,
     gender,
     goal,
@@ -245,6 +250,7 @@ export async function sendPtBriefEmail(params: {
     "────────────",
     ["Name", memberName],
     ["Email", email],
+    ["Mobile", phone || "—"],
     ["Date of birth", formatDob(dob)],
     ["Gender", labelOr(GENDER_LABELS, gender)],
     ["Goal", goalLabel],

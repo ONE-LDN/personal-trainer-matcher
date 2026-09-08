@@ -103,6 +103,21 @@ function leadHasInjury(injuries) {
   return lower !== "none" && lower !== "no" && lower !== "n/a";
 }
 
+// Deliberately permissive: accepts UK and international formats with spaces,
+// dashes, brackets or a leading +. Only rejects obvious junk so a real lead is
+// never blocked at the door.
+function validPhone(v) {
+  const digits = String(v || "").replace(/[^\d]/g, "");
+  return /^\+?[\d\s()-]+$/.test(String(v || "").trim()) && digits.length >= 9 && digits.length <= 15;
+}
+
+// Tidy a number for tel: links — strips formatting, keeps a leading +.
+function telHref(v) {
+  const raw = String(v || "").trim();
+  const digits = raw.replace(/[^\d]/g, "");
+  return `tel:${raw.startsWith("+") ? "+" : ""}${digits}`;
+}
+
 const STEPS = [
   {title:"WHICH OF THESE TRAINING GOALS BEST DESCRIBES WHAT YOU'RE LOOKING FOR?", field:"goal", type:"select", multi:true, maxSelect:3, cols:2, options:[
     {value:"performance", label:"Performance – strength, speed, endurance or comp prep"},
@@ -142,7 +157,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
   const [bookingConfirmed,setBookingConfirmed]=useState(false);
   const [bookingRequests,setBookingRequests]=useState([]);
   const [step,setStep]=useState(0);
-  const [answers,setAnswers]=useState({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});
+  const [answers,setAnswers]=useState({name:"",email:"",phone:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});
   const [nameStep,setNameStep]=useState(false);
   const [briefState,setBriefState]=useState({ sending: false, message: "" });
   const [leadsError,setLeadsError]=useState("");
@@ -208,7 +223,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
       const out = await res.json();
       const matches = out.matches ?? [];
       setMatchResults(matches); setSelectedMatchIdx(0);
-      const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,dob:data.dob,gender:data.gender,goal:Array.isArray(data.goal)?data.goal.join(","):data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
+      const lead={id:out.lead?.id || leads.length+10,name:data.name||"New Member",email:data.email,phone:data.phone,dob:data.dob,gender:data.gender,goal:Array.isArray(data.goal)?data.goal.join(","):data.goal,goal_detail:data.goal_detail,freq:data.freq,injuries:data.injuries,pt_gender_pref:data.pt_gender_pref,anything_else:data.anything_else,status:"new",assignedPT:out.lead?.assigned_pt_id || null,submittedAt:"Just now",notes:""};
       setLeads(p=>[lead,...p]); setView("result");
       if(typeof window!=="undefined") window.scrollTo({top:0});
     } finally {
@@ -341,7 +356,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
         {mode==="admin"&&(
           <div className="nav-tabs">
             <button className={`nav-tab ${view==="member"||view==="result"?"active":""}`}
-              onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>
+              onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",phone:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>
               FIND MY PT
             </button>
             <button className={`nav-tab ${view==="admin"?"active":""}`} onClick={()=>setView("admin")}>ADMIN</button>
@@ -375,6 +390,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                 <div style={{display:"flex",flexDirection:"column",gap:8}}>
                   <input placeholder="Full name" value={answers.name} onChange={e=>setAnswers(p=>({...p,name:e.target.value}))}/>
                   <input placeholder="Email address" type="email" value={answers.email} onChange={e=>setAnswers(p=>({...p,email:e.target.value}))}/>
+                  <input placeholder="Mobile number" type="tel" inputMode="tel" autoComplete="tel" value={answers.phone} onChange={e=>setAnswers(p=>({...p,phone:e.target.value}))}/>
                   <p className="section-label" style={{marginBottom:0,paddingBottom:0,borderBottom:"none",marginTop:8}}>Date of birth</p>
                   <input type="date" min="1925-01-01" max={new Date().toISOString().slice(0,10)} value={answers.dob} onChange={e=>setAnswers(p=>({...p,dob:e.target.value}))}/>
                   <p className="section-label" style={{marginBottom:0,paddingBottom:0,borderBottom:"none",marginTop:8}}>Gender</p>
@@ -385,7 +401,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     <option value="female">Female</option>
                     <option value="prefer_not">Prefer not to say</option>
                   </select>
-                  <button className="btn-red" onClick={()=>{if(answers.name&&answers.email&&answers.gender)setNameStep(true);}} disabled={!answers.name||!answers.email||!answers.gender}>
+                  <button className="btn-red" onClick={()=>{if(answers.name&&answers.email&&validPhone(answers.phone)&&answers.gender)setNameStep(true);}} disabled={!answers.name||!answers.email||!validPhone(answers.phone)||!answers.gender}>
                     START MATCHING →
                   </button>
                 </div>
@@ -516,7 +532,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   BOOKING REQUESTS <span style={{background:"#c1ff72",color:"#000",padding:"2px 6px",marginLeft:6,fontFamily:"'Horizon',monospace",fontSize:9}}>{bookingRequests.filter(r=>r.status==="pending").length}</span>
                 </button>
               )}
-              <button className="btn-red" style={{width:"auto",padding:"12px 24px",fontSize:10}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>+ NEW LEAD</button>
+              <button className="btn-red" style={{width:"auto",padding:"12px 24px",fontSize:10}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",phone:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>+ NEW LEAD</button>
             </div>
           </div>
 
@@ -587,6 +603,24 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                     {[goalLabel(lead.goal),FREQ_LABELS[lead.freq],leadHasInjury(lead.injuries)?"⚠ INJURY/REHAB":null].filter(Boolean).map(t=>(
                       <span key={t} className="pill" style={{color:t.includes("⚠")?"#d6242d":"#444",borderColor:t.includes("⚠")?"#d6242d":"#222",fontSize:8}}>{t}</span>
                     ))}
+                  </div>
+
+                  <div style={{marginBottom:24}}>
+                    <p className="section-label">CONTACT</p>
+                    <div style={{display:"flex",gap:28,flexWrap:"wrap"}}>
+                      <div>
+                        <p className="label dim" style={{fontSize:8,marginBottom:4}}>EMAIL</p>
+                        {lead.email
+                          ? <a href={`mailto:${lead.email}`} style={{fontFamily:"'Courier Prime',monospace",fontSize:13,color:"#c1ff72",textDecoration:"none"}}>{lead.email}</a>
+                          : <span className="body dim" style={{fontSize:13}}>—</span>}
+                      </div>
+                      <div>
+                        <p className="label dim" style={{fontSize:8,marginBottom:4}}>MOBILE</p>
+                        {lead.phone
+                          ? <a href={telHref(lead.phone)} style={{fontFamily:"'Courier Prime',monospace",fontSize:13,color:"#c1ff72",textDecoration:"none"}}>{lead.phone}</a>
+                          : <span className="body dim" style={{fontSize:13}}>—</span>}
+                      </div>
+                    </div>
                   </div>
 
                   {apt&&(
@@ -763,7 +797,7 @@ export default function PTMatcher({ mode = "member", sessionEmail = "" }) {
                   Your request is pending confirmation. We&apos;ll be in touch within 24–48 hours to arrange a time for your intro session.
                 </p>
               </div>
-              <button className="btn-outline" style={{width:"auto",padding:"10px 20px"}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>START AGAIN</button>
+              <button className="btn-outline" style={{width:"auto",padding:"10px 20px"}} onClick={()=>{setView("member");setStep(0);setNameStep(false);setAnswers({name:"",email:"",phone:"",dob:"",gender:"",goal:[],goal_detail:"",freq:"",injuries:"",pt_gender_pref:"",anything_else:""});}}>START AGAIN</button>
             </div>
           )}
         </div>

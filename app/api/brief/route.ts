@@ -56,6 +56,7 @@ export async function POST(request: Request) {
       first_name: lead.first_name,
       last_name: lead.last_name ?? "",
       email: lead.email,
+      phone: lead.phone ?? "",
       dob: lead.age ?? "",
       gender: lead.gender ?? "",
       goal: lead.goal ?? "",

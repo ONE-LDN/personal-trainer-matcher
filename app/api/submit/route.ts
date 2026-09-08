@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     const {
       name,
       email,
+      phone,
       dob,
       gender,
       goal,
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     } = payload as {
       name: string;
       email: string;
+      phone: string;
       dob: string;
       gender: string;
       goal: string | string[];
@@ -43,7 +45,7 @@ export async function POST(request: Request) {
       .map((g) => g.trim())
       .filter(Boolean);
 
-    if (!name || !email || !goals.length || !freq || !gender) {
+    if (!name || !email || !phone || !goals.length || !freq || !gender) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -105,6 +107,7 @@ export async function POST(request: Request) {
         first_name,
         last_name,
         email,
+        phone,
         age: dob,
         gender,
         goal: goals.join(","),
@@ -134,6 +137,7 @@ export async function POST(request: Request) {
       first_name,
       last_name,
       email,
+      phone,
       dob,
       gender,
       goal: goals.join(","),

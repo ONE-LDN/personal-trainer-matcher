@@ -8,6 +8,7 @@ function mapLead(row: Record<string, unknown>) {
     id: row.id,
     name: `${row.first_name || ""} ${row.last_name || ""}`.trim(),
     email: row.email,
+    phone: row.phone,
     age: row.age,
     gender: row.gender,
     goal: row.goal,
